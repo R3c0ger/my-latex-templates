@@ -1,6 +1,6 @@
 # Personal $\LaTeX$ Template Repository
 
-<center> English | <a href="./README_zh_CN.md">中文</a> </center>
+<center> English | <a href="./README_zh-CN.md">中文</a> </center>
 
 This repository contains some $\LaTeX$ templates that I have modified or written from scratch, provided for reference and use by everyone.
 
