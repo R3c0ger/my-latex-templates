@@ -1,0 +1,262 @@
+\section{Example Section}
+
+\subsection{Example Subsection}
+
+\subsubsection{Example Subsubsection}
+
+This is a template for cheatsheets that compiles with \textbf{PdfLaTeX}. 
+
+Please refer to the \texttt{cheatsheet.sty} file for style settings and the \texttt{cheatsheet.tex} or PDF file for the main document structure. In this cheatsheet, we demonstrate various features provided by the template.
+
+\section{Basic Text Formatting}
+
+This is \textbf{bold} text, this is \textit{italic} text (\emph{emph} text), this is \underline{underlined} text, this is \textsc{small caps} text, and this is \texttt{monospaced} text.
+
+We use the \texttt{enumitem} package to make \texttt{itemize} lists and \texttt{enumerate} lists more compact.
+
+\begin{itemize}
+  \item Item 1
+  \item Item 2
+  \begin{itemize}
+    \item Item 2.1
+    \item Item 2.2
+    \begin{itemize}
+      \item Item 2.2.1
+      \item Item 2.2.2
+    \end{itemize}
+  \end{itemize}
+  \item Item 3
+\end{itemize}
+
+\begin{enumerate}
+  \item First
+  \item Second
+  \begin{enumerate}
+    \item Second.A
+    \item Second.B
+    \begin{enumerate}
+      \item Second.B.i
+      \item Second.B.ii
+    \end{enumerate}
+  \end{enumerate}
+  \item Third
+\end{enumerate}
+
+\section{Math Mode Example}
+
+Inline math: $\text{Attention}(Q, K, V) = \text{Softmax}(\frac{QK^{\top}}{\sqrt{d_k}})V$.
+
+Display math:
+\[
+  \text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+\]
+
+\texttt{align} environment:
+\begin{align*}
+  \text{MultiHead}(Q, K, V) &= \textrm{Concat}(\text{head}_1, \dots, \text{head}_h)W^O\\
+  \text{where head}_i &= \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\end{align*}
+
+\texttt{equation} environment with numbering:
+\begin{equation}
+  \text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2
+\end{equation}
+
+\texttt{dcases} environment:
+\[
+  f(x) =
+  \begin{dcases}
+    e^{-1/x}, & x > 0\\
+    0, & x \leq 0
+  \end{dcases}
+\]
+
+Equation in box using \texttt{csbox} command:
+\csbox{equation}{
+  \text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+}
+\begin{lstlisting}[language=tex]
+\csbox{equation}{
+  \text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+}
+\end{lstlisting}
+
+\section{Code Listings}
+
+\begin{itemize}
+  \item Inline code (without colors): \\
+  \texttt{\textbackslash texttt\{print("Hello World")\}}
+  \item Inline code (with colors, default Python): \\
+  \texttt{\textbackslash code\{print("Hello World")\}} \\
+  \texttt{\textbackslash code[python]\{print("Hello World")\}} \\
+  \code{print("Hello World")}
+  \item Code block using \texttt{lstlisting} environment:
+  \begin{lstlisting}[language=c]
+#include <stdio.h>
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+  \end{lstlisting}
+  \item Code block using \texttt{codef} command to include from files (default Python):
+  \codef[python]{code-example.py}
+  \begin{lstlisting}[language=tex]
+\codef{code-example.py}
+% \codef[python]{code-example.py}
+  \end{lstlisting}
+\end{itemize}
+
+\section{Tables \& Figures}
+
+Use \texttt{cstable} to make tables.
+
+\cstable{c X}{
+  \toprule
+  \textbf{Header 1} & \textbf{Header 2} \\
+  \midrule
+  Row 1, Col 1 & This is some text in column 2 that will automatically wrap to fit the column width. \\
+  \midrule
+  Row 2, Col 1 & Another row with more text to demonstrate text wrapping in the table cell. \\
+  \bottomrule
+}
+
+\begin{lstlisting}[language=tex]
+\cstable{c X}{
+  \toprule
+  \textbf{Header 1} & \textbf{Header 2} \\
+  \midrule
+  Row 1, Col 1 & This is some text in column 2 that will automatically wrap to fit the column width. \\
+  \midrule
+  Row 2, Col 1 & Another row with more text to demonstrate text wrapping in the table cell. \\
+  \bottomrule
+}
+\end{lstlisting}
+
+Use \texttt{csfig} to include figures.
+
+\csfig{fig-example.png}
+
+\begin{lstlisting}[language=tex]
+\csfig{fig-example.png}
+\end{lstlisting}
+
+\section{Others}
+
+This is an example of a TODO note: \\\TODOS{Finish writing this section.}
+
+TikZ example:
+
+\centering
+
+\begin{tikzpicture}[
+    node distance=0.6cm and 1.2cm,
+    neuron/.style={circle, draw, minimum size=0.6cm, thick, inner sep=1pt},
+    arrow/.style={-Stealth, semithick},
+    label/.style={align=center, font=\small}
+]
+
+% Input layer
+\node[neuron] (x1) {$x_1$};
+\node[neuron, below=0.2cm of x1] (x2) {$x_2$};
+\node[below=0.1cm of x2, label] {Input\\Layer};
+
+% Hidden layer 1
+\node[neuron, right=of x1] (h12) {$h_2^1$};
+\node[neuron, above=0.2cm of h12] (h11) {$h_1^1$};
+\node[neuron, below=0.2cm of h12] (h13) {$h_3^1$};
+\node[neuron, below=0.2cm of h13] (h14) {$h_4^1$};
+\node[below=0.1cm of h14, label] {Hidden\\Layer 1};
+
+% Hidden layer 2
+\node[neuron, right=of h11] (h21) {$h_1^2$};
+\node[neuron, below=0.2cm of h21] (h22) {$h_2^2$};
+\node[neuron, below=0.2cm of h22] (h23) {$h_3^2$};
+\node[neuron, below=0.2cm of h23] (h24) {$h_4^2$};
+\node[below=0.1cm of h24, label] {Hidden\\Layer 2};
+
+% Output layer
+\path (h22) -- (h23) coordinate[midway] (middle);
+\node[neuron, right=of middle] (y) {$\hat{y}$};
+\node[below=0.1cm of y, label] {Output\\Layer};
+
+% Bias nodes
+\node[neuron, above=0.2cm of h11, fill=gray!20] (b1) {$b_1$};
+\node[neuron, above=0.2cm of h21, fill=gray!20] (b2) {$b_2$};
+\node[neuron, above=0.2cm of y, fill=gray!20] (b3) {$b_3$};
+
+% Connections
+% Input layer to first hidden layer connections (partial weight annotations)
+\foreach \i in {1,2} {
+    \foreach \j in {1,2,3,4} {
+        \draw[arrow] (x\i) -- (h1\j);
+    }
+}
+\draw[arrow] (x1) -- node[above, pos=0.3, font=\tiny] {$w_{11}^1$} (h11);
+\draw[arrow] (x2) -- node[below, pos=0.3, font=\tiny] {$w_{24}^1$} (h14);
+
+% Hidden layer 1 to hidden layer 2 connections (partial weight annotations)
+\foreach \i in {1,2,3,4} {
+    \foreach \j in {1,2,3,4} {
+        \draw[arrow] (h1\i) -- (h2\j);
+    }
+}
+\draw[arrow] (h11) -- node[above, pos=0.4, font=\tiny] {$w_{11}^2$} (h21);
+\draw[arrow] (h14) -- node[below, pos=0.4, font=\tiny] {$w_{44}^2$} (h24);
+
+% Hidden layer 2 to output layer connections
+\foreach \i in {1,2,3,4} {
+    \draw[arrow] (h2\i) -- (y);
+}
+\foreach \i in {1,2,3,4} {
+    \draw[arrow] (h2\i) -- node[above, pos=0.3, font=\tiny] {$w_{\i}^3$} (y);
+}
+
+% Bias connections
+\foreach \i in {1} {
+    \draw[arrow, dashed] (b1) -- (h1\i);
+    \draw[arrow, dashed] (b2) -- (h2\i);
+}
+\draw[arrow, dashed] (b3) -- (y);
+
+% Bias labels
+\node[above=1pt of b1, font=\tiny] {Bias};
+\node[above=1pt of b2, font=\tiny] {Bias};
+\node[above=1pt of b3, font=\tiny] {Bias};
+
+\end{tikzpicture}
+
+3D Plot using TikZ:
+
+\tdplotsetmaincoords{60}{110}
+
+\begin{tikzpicture}[scale=1, tdplot_main_coords,
+    axis/.style={->, thick},
+    point/.style={circle, fill=red, inner sep=1.5pt}]
+    
+    \draw[axis] (0,0,0) -- (3.5,0,0) node[anchor=north east] {$x$};
+    \draw[axis] (0,0,0) -- (0,3.5,0) node[anchor=north west] {$y$};
+    \draw[axis] (0,0,0) -- (0,0,2.5) node[anchor=south] {$z$};
+    
+    \def\amplitude{2.2}
+    \def\xcenter{1.5}
+    \def\ycenter{1.5}
+    \def\xspread{0.7}
+    \def\yspread{0.7}
+    
+    \foreach \i in {0,0.02,...,1} {
+        \foreach \j in {0,0.02,...,1} {
+            \pgfmathsetmacro{\x}{3*\i}
+            \pgfmathsetmacro{\y}{3*\j}
+            \pgfmathsetmacro{\z}{\amplitude*exp(-((\x-\xcenter)^2/(2*\xspread^2) + (\y-\ycenter)^2/(2*\yspread^2)))}
+            
+            \pgfmathsetmacro{\intensity}{100*\z/\amplitude}
+            \fill[blue!\intensity!green, opacity=0.8] (\x,\y,\z) circle (0.4pt);
+        }
+    }
+    
+    \fill[red] (\xcenter,\ycenter,\amplitude) circle (2pt) 
+        node[above, font=\small] {Peak: $(\mu_x,\mu_y)$};
+
+\end{tikzpicture}
+
+\raggedright

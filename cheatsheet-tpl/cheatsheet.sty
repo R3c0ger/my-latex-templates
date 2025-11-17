@@ -1,0 +1,181 @@
+% compile with: pdflatex *2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Necessary packages
+\usepackage[english]{babel}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{tabularx,booktabs}
+\usepackage{tikz,tikz-3dplot,tikz-cd,tikz-qtree}
+\usetikzlibrary{shapes,positioning,arrows,fit,calc,graphs,graphs.standard}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*,topsep=0pt,partopsep=0pt}
+\setlist[itemize]{label=\textbullet}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{lipsum}
+\usepackage{empheq}
+\usepackage{graphicx,url}
+% \graphicspath{{img/}}
+
+% Font settings
+%% Font packages
+%%% for sans-serif fonts
+% \usepackage{cmbright}
+%%% for serif fonts
+\usepackage{newtxtext}
+\usepackage[italic]{mathastext}
+\Mathastext
+%% Font size
+\usepackage{anyfontsize}
+\renewcommand{\normalsize}{\fontsize{7}{9}\selectfont}
+\renewcommand{\small}{\fontsize{6}{8}\selectfont}
+\renewcommand{\large}{\fontsize{8}{10}\selectfont}
+\renewcommand{\Large}{\fontsize{10}{12}\selectfont}
+%% Section heading styles
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{.2ex}{.2ex}{\sffamily\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}{.2ex}{.2ex}{\sffamily\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{1}{0mm}{.2ex}{.2ex}{\sffamily\bfseries\itshape}}
+\makeatother
+
+% Layout settings
+%% Page geometry
+\usepackage[paper=a4paper,landscape,margin=4mm]{geometry}
+%% Multi-column layout
+\usepackage{multicol}
+\setlength{\columnseprule}{.5pt}
+%% Paragraph formatting
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\lineskip}{0.5pt}
+\setlength{\baselineskip}{8pt}
+% Math display spacing
+\setlength{\abovedisplayskip}{0.2em}
+\setlength{\belowdisplayskip}{0.2em}
+\setlength{\abovedisplayshortskip}{0.2em}
+\setlength{\belowdisplayshortskip}{0.2em}
+% Add spacing around tables
+\AtBeginEnvironment{tabular}{\vspace{1pt}}
+\AtBeginEnvironment{table}{\vspace{1pt}}
+\AtEndEnvironment{tabular}{\vspace{-6pt}}
+\AtEndEnvironment{table}{\vspace{-6pt}}
+
+% Code listing settings
+\usepackage{listings}
+\usepackage{sourcecodepro}
+\definecolor{listing-background}{rgb}{0.97,0.97,0.97}
+\definecolor{listing-rule}{HTML}{B3B2B3}
+\definecolor{listing-numbers}{HTML}{B3B2B3}
+\definecolor{listing-text-color}{HTML}{000000}
+\definecolor{listing-keyword}{HTML}{000080}
+\definecolor{listing-identifier}{HTML}{454580}
+\definecolor{listing-string}{HTML}{008000}
+\definecolor{listing-comment}{HTML}{707070}
+\definecolor{listing-javadoc-comment}{HTML}{006CA9}
+\lstdefinestyle{cheatsheetpy}{
+	language=python,
+	numbers=left,
+	% basicstyle=\color{listing-text-color}\small\ttfamily{}, 
+	basicstyle=\color{listing-text-color}\normalsize\linespread{0.8}\selectfont\ttfamily{}, 
+	% xleftmargin=0.8em, % 2.8 with line num, 0.8 without
+    xleftmargin=2.8em,
+	breaklines=true,
+	frame=single,
+	framesep=0.6mm,
+	rulecolor=\color{listing-rule},
+	frameround=ffff,
+    framexleftmargin=0.4em,
+	tabsize=4,
+	numberstyle=\color{listing-numbers},
+	% backgroundcolor=\color{listing-background},
+	aboveskip=0.3em,
+    belowskip=0.3em,
+	keywordstyle=\color{listing-keyword}\bfseries,
+	classoffset=0,
+	sensitive=true,
+	identifierstyle=\color{listing-identifier},
+	commentstyle=\color{listing-comment},
+	morecomment=[s][\color{listing-javadoc-comment}]{/**}{*/},
+	stringstyle=\color{listing-string},
+	showstringspaces=false,
+	escapeinside={/*@}{@*/},
+}
+\lstset{style=cheatsheetpy}
+
+% Custom commands and environments
+\newcommand\TODOS[1]{{{\Large \textbf{TODO!} }\textcolor{red}{#1}}}
+\newcommand\code[2][Python]{\lstinline[language=#1]{#2}}
+\newcommand\codef[2][Python]{\lstinputlisting[language=#1,style=cheatsheetpy]{#2}}
+\newcommand\cstable[2]{%
+    \vspace{0.3em}%
+    \renewcommand{\arraystretch}{1.05}
+    \setlength{\extrarowheight}{1pt}
+    \begin{tabularx}{\columnwidth}{#1}%
+        #2%
+    \end{tabularx}%
+    \vspace{0.3em}
+}
+\newcommand\csfig[1]{{\centering\includegraphics[width=\linewidth]{#1}}}
+\newcommand\csbox[2]{\begin{empheq}[box=\fbox]{#1}#2\end{empheq}\vspace{0em}}
+
+% Markdown support
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{markdown}
+\markdownSetup{
+	smartEllipses,
+	hashEnumerators,
+	fencedCode,
+	pipeTables,
+	tableCaptions,
+	tableAttributes,
+	texComments,
+	texMathDollars,
+	texMathSingleBackslash,
+	texMathDoubleBackslash,
+	mark,
+	notes,
+	strikeThrough,
+	subscripts,
+	superscripts,
+	taskLists,
+	underscores,
+	% adjust heading levels (1->1，2->1, 3->2, ...)
+	shiftHeadings=-1,
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Usage:
+% In the main .tex file, use:
+% \begin{markdown}...\end{markdown}
+% or
+% \markdownInput{filename.md}
+% for including markdown content.
+%
+% To compile markdown files with LaTeX Workshop in VSCode, add the following to settings.json:
+% ```json
+%   "latex-workshop.latex.recipes": [
+%     {
+%       "name": "pdf-for-md*2",
+%       "tools": ["pdflatex-shell-escape", "pdflatex-shell-escape"]
+%     },
+%   ],
+%   "latex-workshop.latex.tools": [
+%     {
+%       "name": "pdflatex-shell-escape",
+%       "command": "pdflatex",
+%       "args": [
+%         "--shell-escape",
+%         "-synctex=1",
+%         "-interaction=nonstopmode",
+%         "-file-line-error",
+%         "%DOCFILE%"
+%       ]
+%     }
+%   ],
+% ```
+%
+% Then select the "pdf-for-md*2" recipe to compile .tex files that include markdown.
+
+% Monospaced font settings
+\usepackage[scaled=0.8]{beramono}
+\renewcommand{\ttdefault}{fvm}

@@ -1,0 +1,276 @@
+% compile with: pdflatex *2
+\ProvidesPackage{asgn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Import necessary packages
+\usepackage{amssymb}
+\usepackage[tbtags]{amsmath}
+\usepackage{mathtools}
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{lipsum}
+\usepackage{bm}
+\usepackage{float}
+\usepackage{xparse}
+\usepackage{xspace}
+\usepackage{tikz, tikz-3dplot, tikz-cd, tikz-qtree}
+\usetikzlibrary{shapes, positioning, arrows, fit, calc, graphs, graphs.standard}
+\usepackage{caption}
+\usepackage{empheq}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page formatting
+%% Set page size and margins
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+%% Set line spacing
+\usepackage{setspace}
+\setstretch{1.15}
+%% Set paragraph spacing
+\usepackage{parskip}
+\setlength{\parskip}{0.3\baselineskip}
+\setlength{\parindent}{0pt}
+%% Set bookmarks
+\usepackage{hyperref}
+\hypersetup{  % Style 1
+	bookmarksnumbered=true,
+	bookmarksopen=true,
+	colorlinks=true,
+	% allcolors=black,
+	citecolor=red,
+	pdfstartview=Fit,
+	breaklinks=true
+}
+% \hypersetup{  % Style 2
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=magenta,      
+%     urlcolor=blue,
+% }
+% Set section break
+\usepackage{titlesec}
+% \newcommand{\sectionbreak}{\clearpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Font settings
+\usepackage[T1]{fontenc}
+%% Courier
+\usepackage{courier}
+\usepackage{textcomp}
+\newcommand{\courier}{\fontfamily{pcr}\selectfont}
+\newcommand{\couriertext}[1]{{\courier #1}}
+% \usepackage{inconsolata}  % Alternative monospaced font
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code block settings
+\usepackage{xcolor}
+\usepackage{listings}
+%% Define custom colors
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+%% Define the style for code blocks
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,          
+    tabsize=2
+}
+\lstdefinestyle{framestyle}{
+	basicstyle=\small\ttfamily,
+	columns=flexible,
+	numbers=none,
+	backgroundcolor=\color{white},
+	frame=single
+}
+\lstset{style=mystyle}
+%% Rewrite the title of code blocks
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+\def\lstlistingautorefname{Alg.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define commonly used commands
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\newcommand{\diffrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\argmin}{\mathop{\arg\!\min}}
+\newcommand{\argmax}{\mathop{\arg\!\max}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\trans}{^\top}
+\newcommand{\inv}{^{-1}}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+\newcommand{\Ind}{\mathbb{I}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\Entropy}{\mathrm{H}}
+\newcommand{\MutualInfo}{\mathrm{I}}
+\newcommand{\comment}[1]{\textcolor{red}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Environment setup
+
+%% Sub item list
+\usepackage{enumitem}
+\newlist{sub}{enumerate}{1}
+\setlist[sub]{
+    label=(\roman*),
+    align=right,
+    labelwidth=2em,
+    leftmargin=2.5em,
+    itemindent=0pt,
+    % parsep=0.3\baselineskip,
+	% itemsep=0.3\baselineskip,
+    topsep=0.4\baselineskip,
+    partopsep=0pt,
+}
+
+%% Question environment
+%%% Define the counter. Questions labeled as a, b, c, ...
+\newcounter{qstcounter}
+\renewcommand{\theqstcounter}{\alph{qstcounter}}
+\@addtoreset{qstcounter}{section}
+%%% Define new tcolorbox style
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\NewTColorBox{nbox}{m}{
+	title=#1,
+	title filled=true,
+	coltitle=black,
+	colbacktitle=gray!20,
+	colback=white,
+	colframe=black,
+	arc=0mm,
+	auto outer arc,
+	boxrule=1pt,
+	titlerule=0.2mm,
+	toptitle=1mm,
+	bottomtitle=0.8mm,
+	breakable=true,
+	parbox=false,
+}
+%%% Define the question command
+\NewDocumentCommand{\qst}{+m O{} O{} O{} O{1}}{%
+    \refstepcounter{qstcounter}
+    \def\qstprefix{Question (}
+    \def\qstsuffix{)}
+    \def\qstformat{alph}
+    \if\relax\detokenize{#2}\relax\else\def\qstprefix{#2}\fi
+    \if\relax\detokenize{#3}\relax\else\def\qstsuffix{#3}\fi
+    \if\relax\detokenize{#4}\relax\else\def\qstformat{#4}\fi
+	\edef\currentsection{\thesection}%
+	% The 5th argument is the level of bookmark.
+	% The difference between the level of the current question and the previous bookmark should not exceed 1.
+    \pdfbookmark[#5]{\qstprefix\csname\qstformat\endcsname{qstcounter}\qstsuffix}{qst:\currentsection:\theqstcounter}
+    \begin{nbox}{\textbf{\qstprefix\csname\qstformat\endcsname{qstcounter}\qstsuffix}}
+        #1
+    \end{nbox}
+}
+%%% Question box without title
+\newcommand{\qstnt}[1]{
+	\begin{nbox}{}
+		#1
+	\end{nbox}
+}
+
+%% Answer environment
+%%% Answer prefix
+\NewDocumentCommand{\ans}{s}{
+	\textbf{Answer: }%
+	\IfBooleanTF{#1}{\par}{}
+}
+%%% Solution prefix
+\NewDocumentCommand{\sln}{s}{
+	\textbf{Solution. }%
+	\IfBooleanTF{#1}{\par}{}
+}
+%%% Proof prefix
+\newcommand{\prfprefix}{\textit{Proof. }}
+%%% Proof environment
+\qedsymbol{\ensuremath{\square}}
+{
+	\theoremstyle{nonumberplain}
+	\theoremheaderfont{\itshape}
+	\theorembodyfont{\normalfont}
+	\theoremsymbol{\ensuremath{\square}}
+	\theoremseparator{.}
+	\newtheorem{prfenv}{Proof}
+}
+\newcommand{\prf}[1]{
+	\if\relax\detokenize{#1}\relax\prfprefix
+	\else\begin{prfenv}#1\end{prfenv}\fi
+}
+
+%% Image insertion
+\NewDocumentCommand{\img}{O{1} O{H} +m O{} O{} O{0.5pt}}{%
+	\begin{figure}[#2]
+		\centering
+		\captionsetup{justification=centering, margin=#6}
+		\includegraphics[width=#1\textwidth]{#3}
+		% If no caption is needed, just leave the 2nd argument empty.
+		\if\relax\detokenize{#4}\relax\else\caption{#4}\fi
+		% If no label is needed, just leave the 3rd argument empty.
+		\if\relax\detokenize{#5}\relax\else\label{#5}\fi
+	\end{figure}
+}
+%% Tikz image
+\NewDocumentCommand{\tikzimg}{O{scale=1} O{H} +m O{} O{} O{0.5pt}}{%
+	\begin{figure}[#2]
+		\centering
+		\captionsetup{justification=centering, margin=#6}
+		\begin{tikzpicture}[#1]
+			#3
+		\end{tikzpicture}
+		\if\relax\detokenize{#4}\relax\else\caption{#4}\fi
+		\if\relax\detokenize{#5}\relax\else\label{#5}\fi
+	\end{figure}
+}
+
+%% Table
+\NewDocumentCommand{\tbl}{O{H} +m O{} O{}}{%
+    \begin{table}[#1]
+        \centering
+        \if\relax\detokenize{#3}\relax\else\caption{#3}\fi%
+        \if\relax\detokenize{#4}\relax\else\label{#4}\fi%
+        #2
+    \end{table}
+}
+
+%% Code
+%%% Inline code
+\NewDocumentCommand{\code}{O{python} m}{\lstinline[language=#1]{#2}}
+%%% Code block (imported from external files)
+\NewDocumentCommand{\codef}{O{python} m O{} O{} O{}}{%
+    \lstinputlisting[
+        language=#1,
+        caption=#3,
+        label=#4,
+        #5
+    ]{#2}%
+}

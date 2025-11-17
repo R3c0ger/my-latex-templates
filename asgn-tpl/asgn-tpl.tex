@@ -1,0 +1,197 @@
+% compile with: pdflatex *2
+\documentclass{article}
+\usepackage{asgn}
+
+\title{\textbf{Title of the Assignment Template \\ Assignment 1}}
+\author{Your Name | Student No.: 7355608 | Email: example@email.com}
+\date{\today}
+
+\newcommand{\q}[1]{\qst{#1}[Problem ][][Roman][2]} % Custom question command
+
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Common Commands}
+
+\couriertext{\textbackslash couriertext} \texttt{\textbackslash texttt} $\norm{\argmin\limits_{x}\vect{M}\inv}$
+
+\subsection{Questions}
+
+\qst{
+	\begin{sub}
+		\item This is sub item one in \texttt{sub} environment.
+		\item This is sub item two.
+		\item This is sub item three.
+	\end{sub}
+
+	\begin{quote}
+		This is a \texttt{quote} environment inside the question box.
+	\end{quote}
+}
+
+\qstnt{
+	This is a question box without title.
+	
+	\[
+		\begin{dcases}
+			\alpha = \dfrac{\sum\limits_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum\limits_{i=1}^{n}(x_i - \bar{x})^2} \\
+			\beta = \bar{y} - \alpha\bar{x}
+		\end{dcases}
+	\]
+}
+
+\setcounter{qstcounter}{5}
+% \qst{
+\q{
+	\begin{itemize}
+		\item \texttt{\textbackslash qst\{blabla\}[Problem ][][Roman][2]}
+		\item blabla
+	\end{itemize}
+% }[Problem ][][Roman][2]
+}
+
+\subsection{Answers}
+
+\sln This is the solution using \texttt{\textbackslash sln}.
+
+\sln* This is the solution using \texttt{\textbackslash sln*}. There is a new line after the prefix.
+
+\ans This is the answer using \texttt{\textbackslash ans}.
+
+\ans* This is the answer using \texttt{\textbackslash ans*}. There is a new line after the prefix.
+
+\prf{
+	This is the proof environment content using \texttt{\textbackslash prf\{\}}.
+	\par There is a square at the end of the proof.
+}
+
+\section{Figures, Tables, and Code Listings}
+
+\subsection{Figures}
+
+Use custom \texttt{\textbackslash img} command to insert image (shown as Figure~\ref{fig:img_example}):
+
+\img[0.5][H]{img/exp-img.jpg}
+[Example Image. This image displays the ReLU (Rectified Linear Unit) activation function, which is defined as \( \text{ReLU}(x) = \max(0, x) \). It is widely used in neural networks due to its simplicity and effectiveness in introducing non-linearity.]
+[fig:img_example][2cm]
+
+\begin{lstlisting}[language=tex]
+\img
+[0.5]             % Scale (as a fraction of text width)
+[H]               % Placement
+{img/exp-img.jpg} % Image file
+[Example Image]   % Caption
+[fig:img_example] % Label
+[2cm]             % Margin
+\end{lstlisting}
+
+Use custom \texttt{\textbackslash tikzimg} command to insert TikZ image (in a question box below):
+
+\qstnt{
+\tikzimg[
+	neuron/.style={circle, draw, minimum size=1cm},
+	input/.style={circle, draw, minimum size=0.8cm},
+	>=stealth
+]{
+	% Input nodes
+	\node[input] (a) at (0,2) {$a$};
+	\node[input] (b) at (0,0) {$b$};
+	\node[input] (c) at (0,-2) {$c$};
+	% Perceptron node
+	\node[neuron] (perceptron) at (3,0) {$\text{step}(\cdot)$};
+	% Bias
+	\node[above=0.7cm] at (perceptron) {$\theta = 1$};
+
+	% Connections with weights
+	\draw[-latex] (a) -- node[above=3pt] {$-1$} (perceptron);
+	\draw[-latex] (b) -- node[above=3pt] {$+2$} (perceptron);
+	\draw[-latex] (c) -- node[above=3pt] {$-1$} (perceptron);
+	
+	% Output
+	\draw[-latex] (perceptron) -- (5,0) node[right] {Output};
+}
+}
+
+\subsection{Tables}
+
+Use \texttt{\textbackslash tbl} command to insert tables (shown as Table~\ref{tab:truth_table}):
+
+\tbl{
+    \begin{tabular}{|c c c|c c|c|}
+        \hline
+        $a$ & $b$ & $c$ & $\neg a$ & $\neg c$ & $\neg a \lor b \lor \neg c$ \\
+        \hline
+        0 & 0 & 0 & 1 & 1 & 1 \\
+        0 & 0 & 1 & 1 & 0 & 1 \\
+        0 & 1 & 0 & 1 & 1 & 1 \\
+        0 & 1 & 1 & 1 & 0 & 1 \\
+        1 & 0 & 0 & 0 & 1 & 1 \\
+        1 & 0 & 1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0 & 1 & 1 \\
+        1 & 1 & 1 & 0 & 0 & 1 \\
+        \hline
+    \end{tabular}
+}[Truth table for the boolean expression $\neg a \lor b \lor \neg c$][tab:truth_table]
+
+\begin{lstlisting}[language=tex]
+\tbl
+[H]                       % Placement
+{                         % Table content
+	\begin{tabular}{cols} % You can change the env you need
+		...
+	\end{tabular}
+}
+[Example Table]           % Caption
+[tab:example]             % Label
+\end{lstlisting}
+
+\subsection{Code Listings}
+
+Inline code:
+
+\lstinline[language=python]{print("Hello, World!")}
+
+Block code (imported from external files):
+
+\lstinputlisting[language=python]{code/exp-code.py}
+
+\lstinputlisting[language=bash, basicstyle=\small\ttfamily]{code/exp-bash.sh}
+
+Block code:
+
+\begin{lstlisting}[
+	language=tex, 
+	caption={Example LaTeX Code}, 
+	label={lst:example_latex},
+	% style=framestyle  % Custom style as follows
+	basicstyle=\small\ttfamily, 
+	columns=flexible, 
+	numbers=none, 
+	backgroundcolor=\color{white}, 
+	frame=single
+]
+\begin{lstlisting}[
+	language=tex,
+	caption={Example LaTeX Code},
+	label={lst:example_latex},
+	% style=framestyle  % Custom style as follows
+	basicstyle=\small\ttfamily, 
+	columns=flexible, 
+	numbers=none, 
+	backgroundcolor=\color{white}, 
+	frame=single
+]
+	...
+\end{...}
+\end{lstlisting}
+
+\subsection{Code Listings Using Custom Commands}
+
+Inline code using \texttt{\textbackslash code} command: \code[python]{print("Hello, World!")}
+
+Block code that imports from external files using \texttt{\textbackslash codef} command (shown as Listing~\ref{lst:exp_code}):
+
+\codef{code/exp-code.py}[Example Python Code][lst:exp_code]
+
+\end{document}
