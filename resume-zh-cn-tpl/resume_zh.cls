@@ -35,6 +35,7 @@
 % 姓名样式参数
 \newcommand{\@namesize}{20pt}            % 姓名字号
 \newcommand{\@namelineheight}{24pt}      % 姓名行高
+\newcommand{\@positionsize}{14pt}        % 意向岗位字号
 % 个人信息样式参数
 \newcommand{\@infosize}{10pt}            % 个人信息字号
 \newcommand{\@infolineheight}{15pt}      % 个人信息行高
@@ -89,9 +90,10 @@
     \renewcommand{\@textheight}{#2}%
 }
 % 姓名样式设置
-\newcommand{\setnamestyle}[2]{%
+\newcommand{\setnamestyle}[3]{%
     \renewcommand{\@namesize}{#1}%
     \renewcommand{\@namelineheight}{#2}%
+    \renewcommand{\@positionsize}{#3}%
 }
 % 个人信息样式设置
 \newcommand{\setinfostyle}[2]{%
@@ -194,8 +196,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 姓名
-% 1.对齐方式（可选，left/center/right，默认center）；2.姓名内容
-\NewDocumentCommand{\name}{O{center} m}{%
+% 1.对齐方式（可选，left/center/right，默认center）；2.姓名内容；3.意向岗位（可选）；
+\NewDocumentCommand{\name}{O{center} m O{}}{%
     \begingroup
     \fontsize{\@namesize}{\@namelineheight}\selectfont % 设置字体大小
     \bfseries
@@ -204,7 +206,12 @@
             \ifstrequal{#1}{right}{\raggedleft}{\centering}
         }%
     }%
-    #2\par% 设置姓名
+    \IfValueTF{#3}{% 如果提供了意向岗位
+        #2% 姓名内容
+        \fontsize{\@positionsize}{\@namelineheight}\selectfont % 使用指定的字号，行距与姓名一致
+        \quad #3% 意向岗位内容
+    }{#2}% 如果没有意向岗位，正常显示姓名
+    \par% 结束段落
     \endgroup
     \vspace{5pt}% 下方间距
 }
